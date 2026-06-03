@@ -51,7 +51,7 @@ Developed an dashboard where results are displayed using Streamlit tables.
 ## Technology Stack
 
 ### Programming Language
-- Python
+- Python, SQL
 ### Database
 - MySQL
 ### Data Analysis
@@ -63,3 +63,40 @@ Developed an dashboard where results are displayed using Streamlit tables.
 ### Version Control
 - Git
 - GitHub
+
+## Project Structure
+```text
+Traffic_Crash_Analysis/
+│
+├── app.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+├── Data/
+│   └── Traffic_CrashesData.csv
+├── Assets/
+│   └── logo.png
+└── Screenshots/
+```
+
+## How to Run the Project
+### Clone Repository
+- git clone <repository-url>
+- cd Traffic_Crash_Analytics_Streamlit_Project
+### Create Virtual Environment
+- python -m venv .venv
+### Activate Environment
+### Windows:
+- .venv\Scripts\activate
+### Install Dependencies
+- pip install -r requirements.txt
+### Run Streamlit Application
+- streamlit run app.py
+
+
+## Learning Outcomes
+- Advanced SQL query writing
+- Window functions and analytical SQL
+- Data exploration and insight generation
+- Database integration with Python
+- Streamlit application development
