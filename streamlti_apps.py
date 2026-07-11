@@ -20,7 +20,7 @@ def custom_header(text, size=32, color="blue"):
     )
 
 
-st.sidebar.image(r"C:\Users\ukesh\OneDrive\Desktop\crash_logo.png", width=100)
+st.sidebar.image(r"/Users/suriya/Ukesh_AIML_Projects/Traffic_Crash_Analytics_Streamlit_Project/Data/car-logo.jpg", width=100)
 
 option=st.sidebar.pills(
     "Crash Analysis:",
@@ -33,10 +33,10 @@ if option=="Home":
 
     st.divider()
 
-    st.markdown("***Traffic crash data contains valuable insights that can help improve road safety, optimize emergency response, and support policy decisions. However, extracting meaningful insights from large-scale structured data requires strong SQL and analytical skills. In this project, provided with a pre-cleaned and structured dataset of traffic crashes. The objective is to: Analyze crash data using advanced SQL techniques Identify patterns, trends, and risk factors Generate business insights from structured data***")
+    st.markdown("***Traffic crash data contains valuable insights that can help improve road safety, optimize emergency response, and support policy decisions. However, extracting meaningful insights from large-scale structured data requires strong SQL and analytical skills. In this project, provided with a pre-cleaned and structured dataset of traffic crashes. The objective is to: Analyze crash data using advanced SQL techniques Identify patterns, trends, and risk factors Generate business insights from structured data.***")
 
 elif option=="Data_Samples":
-    st.header("***Transport Data Samples***")
+    st.header("***Data Samples***")
 
     st.divider()
 
@@ -57,14 +57,14 @@ elif option=="Data_Samples":
     st.code(
         """
     import pandas as pd
-    df = pd.read_csv(r"C:\\Users\\ukesh\\OneDrive\\Desktop\\Project\\Traffic_Crash_Analysis\\Data\\Traffic_CrashesData.csv")
+    df = pd.read_csv(r"/Users/suriya/Ukesh_AIML_Projects/Traffic_Crash_Analytics_Streamlit_Project/Data/Traffic_CrashesData.csv")
     df.head(10)""",
     language="python")
 
     st.divider()
 
     st.markdown("***Sample data:***")  
-    df=pd.read_csv(r"C:\Users\ukesh\OneDrive\Desktop\Project\Traffic_Crash_Analysis\Data\Traffic_CrashesData.csv")
+    df=pd.read_csv(r"/Users/suriya/Ukesh_AIML_Projects/Traffic_Crash_Analytics_Streamlit_Project/Data/Traffic_CrashesData.csv")
     df=df.head(10)
     st.dataframe(df)
 
@@ -148,7 +148,7 @@ elif option=="Data_Loading":
     )
 
     df = pd.read_csv(
-        r"C:\\Users\\ukesh\\OneDrive\\Desktop\\Project\\Traffic_Crash_Analysis\\Data\\Traffic_CrashesData.csv"
+        r"/Users/suriya/Ukesh_AIML_Projects/Traffic_Crash_Analytics_Streamlit_Project/Data/Traffic_CrashesData.csv"
     )
 
     df.to_sql(
@@ -351,9 +351,7 @@ elif option=="Data_Analysis":
     else:
         st.write("")
 
-    
-
-
 else:
     custom_header("Welcome to Streamlit Apps",36,"#800f2f")
     custom_header("Choose Menu from sidebar",30,"#800f2f")
+    
