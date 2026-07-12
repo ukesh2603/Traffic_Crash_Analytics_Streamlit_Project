@@ -10,10 +10,9 @@ Traffic crash data contains valuable information that can help improve road safe
 
 This project focuses on:
 
-- Analyzing crash data using advanced SQL techniques
-- Identifying patterns, trends and risk factors
-- Generating actionable business insights from structured data
-- Building an interactive dashboard to present analytical findings
+- Analyzing crash data using advanced SQL techniques.
+- Generating actionable business insights from structured data.
+- Building an interactive dashboard to present analytical findings.
 
 ## Business Use Cases:
 ### Traffic Authorities
@@ -68,30 +67,26 @@ Developed an dashboard where results are displayed using Streamlit tables.
 ```text
 Traffic_Crash_Analysis/
 │
-├── app.py
+├── streamlti_apps.py
 ├── requirements.txt
 ├── README.md
 ├── .gitignore
 ├── Data/
 │   └── Traffic_CrashesData.csv
-├── Assets/
-│   └── logo.png
-└── Screenshots/
+│   └── car-logo.jpg
+└── Data_Exploration.ipynb
+│
+└── Data_Loading.ipynb
 ```
 
 ## How to Run the Project
 ### Clone Repository
 - git clone <repository-url>
 - cd Traffic_Crash_Analytics_Streamlit_Project
-### Create Virtual Environment
-- python -m venv .venv
-### Activate Environment
-### Windows:
-- .venv\Scripts\activate
 ### Install Dependencies
 - pip install -r requirements.txt
 ### Run Streamlit Application
-- streamlit run app.py
+- streamlit run streamlti_apps.py
 
 
 ## Learning Outcomes
