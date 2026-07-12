@@ -200,8 +200,8 @@ elif option=="Data_Analysis":
 
     if dropdown=="Find the top 5 most dangerous combinations of weather and crash type based on total crashes":
         custom_header("Weather Vs Crash_Type",36,"White")
-        query="""select weather_condition,crash_type, count(*) as total_crash from crash_data group by weather_condition,crash_type 
-                having weather_condition!= "UNKNOWN" order by total_crash desc limit 5;"""
+        query="""select weather_condition, crash_type, count(*) as total_crashes from crash_data 
+                group by weather_condition, crash_type order by total_crashes desc limit 5;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -209,7 +209,7 @@ elif option=="Data_Analysis":
 
     elif dropdown=="Identify the top 10 streets with the highest number of injury crashes":
         custom_header("Top 10 Streets with the Highest Number of Injury Crashes",36,"White")
-        query="""select street_name, count(*) as total_injuries from crash_data where injuries_total>0 group by street_name order by total_injuries desc limit 10;"""
+        query="""select street_name,count(*) as Injuries from crash_data where crash_type like "Injury%" group by street_name order by injuries desc limit 10;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -217,7 +217,7 @@ elif option=="Data_Analysis":
     
     elif dropdown=="Find the percentage of crashes that resulted in injuries for each crash type":
         custom_header("Percentage of Injury Crashes by Crash Type",36,"White")
-        query="""select first_crash_type as crash_type,round((count(case when injuries_total>0 then 1 end)*100)/count(*),2) as percentage_crash from crash_data group by first_crash_type order by percentage_crash desc;"""
+        query="""select crash_type, round((sum(injuries_total)/count(*))*100,2) as percentage from crash_data group by crash_type having crash_type like "INJURY%";"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -225,9 +225,11 @@ elif option=="Data_Analysis":
         
     elif dropdown=="Determine the peak crash hour for each month":
         custom_header("Peak Crash hour per month",36,"White")
-        query="""select crash_month, crash_hour, total_crash from (select crash_month, crash_hour, count(*) as total_crash , 
-        dense_rank() over(partition by crash_month order by count(*) desc) as ranked 
-        from crash_data group by crash_month, crash_hour) as tab where ranked=1 order by crash_month;"""
+        query="""select crash_month, crash_hour, total_crashes from(
+                select crash_month, crash_hour, count(*) as total_crashes , 
+                dense_rank() over(partition by crash_month order by count(*) desc) as ranked from crash_data
+                group by crash_month, crash_hour)as tab
+                where ranked=1;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -235,7 +237,7 @@ elif option=="Data_Analysis":
 
     elif dropdown=="Find the top 5 primary causes of crashes during night time (CRASH_HOUR ≥ 18)":
         custom_header("Primary causes of crashes at night",36,"White")
-        query="""select prim_contributory_cause,count(*) as crash_count from crash_data where crash_hour>=18 group by prim_contributory_cause order by crash_count desc limit 5;"""
+        query="""select prim_contributory_cause,count(*) as total_crash from crash_data where crash_hour>=18 group by prim_contributory_cause order by total_crash desc limit 5;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -243,8 +245,7 @@ elif option=="Data_Analysis":
 
     elif dropdown=="Compare average number of injuries in daylight vs darkness conditions":
         custom_header("Injuries in Daylight Vs Darkness",36,"White")
-        query="""select lighting_condition,round(avg(injuries_total),2) as average_injuries from crash_data 
-        where lighting_condition like "DARKNESS%" or lighting_condition like "DAYLIGHT%" group by lighting_condition;"""
+        query="""select lighting_condition,avg(injuries_total) as average_injury from crash_data group by lighting_condition having lighting_condition like "daylight%" or lighting_condition like "darkness%";"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -252,7 +253,7 @@ elif option=="Data_Analysis":
 
     elif dropdown=="Find which traffic control device type has the highest average injuries per crash":
         custom_header("Highest average injuries per crash by Traffic control device",36,"White")
-        query="""select traffic_control_device, round(avg(injuries_total),2) as average from crash_data group by traffic_control_device order by average desc limit 1;"""
+        query="""select traffic_control_device,avg(injuries_total) as average_injury from crash_data group by traffic_control_device order by average_injury desc limit 1;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -260,7 +261,7 @@ elif option=="Data_Analysis":
     
     elif dropdown=="Identify the top 5 locations (latitude/longitude) with the highest crash frequency":
         custom_header("Location wise crash frequency",36,"White")
-        query="""select location, count(*) as frequency from crash_data group by location order by frequency desc limit 5;"""
+        query="""select location,count(*) as frequency from crash_data group by location order by frequency desc limit 5;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -268,8 +269,7 @@ elif option=="Data_Analysis":
 
     elif dropdown=="Find the top 5 streets with the highest injury rate, considering only streets with more than 100 crashes":
         custom_header("Top 5 highest injury rate streets",36,"White")
-        query="""select street_name,count(*) as crashes , round((sum(injuries_total))/count(*),2) as injury_rate from crash_data 
-        group by street_name having crashes>100 order by injury_rate desc limit 5;"""
+        query="""select street_name,count(*) as crashes, round(sum(injuries_total)/count(*),2) as injury_rate from crash_data group by street_name having crashes>100 order by injury_rate desc limit 5;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -278,10 +278,9 @@ elif option=="Data_Analysis":
     
     elif dropdown=="For each year, identify the most common crash type":
         custom_header("Most Common crash type",36,"White")
-        query="""select year, first_crash_type, total_crashes
-        from (select year, first_crash_type, count(*) as total_crashes ,dense_rank() over(partition by year order by count(*) desc) as ranked 
-        from crash_data group by year, first_crash_type) as tab
-        where ranked=1 order by year;"""
+        query="""select year,crash_type,total_crash from(
+                select year,crash_type, count(*) as total_crash , dense_rank() over (partition by year order by count(*) desc) as ranked from crash_data group by year,crash_type) as tab
+                where ranked=1;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -289,11 +288,10 @@ elif option=="Data_Analysis":
     
     elif dropdown=="Find the day of the week with the highest average crashes per hour":
         custom_header("Day of highest average crashes based on hour",36,"White")
-        query="""select crash_day_of_week, round(avg(total_crashes),2) as average
-        from (select crash_day_of_week, crash_hour,count(*) as total_crashes
-        from crash_data group by crash_day_of_week , crash_hour order by crash_day_of_week) as tab
-        group by crash_day_of_week
-        order by average desc limit 1;"""
+        query="""select crash_day_of_week, round(avg(total_crash),2) as average from
+                (select crash_day_of_week,crash_hour,count(*) as total_crash from crash_data group by crash_day_of_week,crash_hour order by crash_day_of_week) as tab
+                group by crash_day_of_week
+                order by average desc limit 1;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -301,13 +299,13 @@ elif option=="Data_Analysis":
     
     elif dropdown=="Identify high-risk time slots,Group hours into buckets (Morning, Afternoon, Evening, Night),Find which bucket has the highest injury crashes":
         custom_header("High risk time slot",36,"White")
-        query="""select case when crash_hour between 4 and 11 then "Morning" 
-        when crash_hour between 12 and 16 then "Afternoon" 
-        when crash_hour between 17 and 20 then "Evening" else "Night" end as time_bucket, 
-        sum(injuries_total) as injury
-        from crash_data 
-        group by time_bucket 
-        order by injury desc limit 1;"""
+        query="""select case when crash_hour between 4 and 11 then "Morning"
+                when crash_hour between 12 and 16 then "Afternoon"
+                when crash_hour between 17 and 20 then "Evening" else "Night" end as time_bucket,
+                sum(injuries_total) as injuries
+                from crash_data
+                group by time_bucket
+                order by injuries desc limit 1;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -315,11 +313,11 @@ elif option=="Data_Analysis":
 
     elif dropdown=="Find the top 3 contributing causes for each crash type":
         custom_header("Top 3 contributing causes based on every crash type",36,"White")
-        query="""select first_crash_type,prim_contributory_cause, total_crashes
-        from (select first_crash_type, prim_contributory_cause,count(*) as total_crashes , 
-        dense_rank() over(partition by first_crash_type order by count(*) desc) as ranked 
-        from  crash_data group by prim_contributory_cause,first_crash_type) as tab
-        where ranked <=3;"""
+        query="""select crash_type,prim_contributory_cause from
+                (select crash_type, prim_contributory_cause, count(*) as total , 
+                dense_rank() over(partition by crash_type order by count(*) desc) as ranked from crash_data 
+                group by crash_type,prim_contributory_cause) as tab
+                where ranked<=3;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -327,10 +325,10 @@ elif option=="Data_Analysis":
 
     elif dropdown=="Identify hotspot zones: Group nearby locations (round latitude & longitude to 2 decimal places),Find top 10 zones with highest crashes":
         custom_header("Hotspot Zones",36,"White")
-        query="""select round(latitude,2) as latitude, round(longitude,2) as longitude , count(*) as total 
-        from crash_data 
-        group by round(latitude,2),round(longitude,2)
-        order by total desc limit 10;"""
+        query="""select round(latitude,2) as latitude, round(longitude,2) as longitude, count(*) as total
+                from crash_data 
+                group by round(latitude,2),round(longitude,2)
+                order by total desc limit 10;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
@@ -338,11 +336,10 @@ elif option=="Data_Analysis":
 
     elif dropdown=="Calculate the year-over-year growth rate of crashes":
         custom_header("Year by year growth rate",36,"White")
-        query="""with yearly_crashes AS (select year, COUNT(*) AS total_crashes from crash_data group by year)
-        select year,total_crashes,LAG(total_crashes) over (order by year) as prev_year_crashes,
-        round((total_crashes - lag(total_crashes) over (order by year))* 100.0/ lag(total_crashes) over (order by year),2) as yoy_growth_rate
-        from yearly_crashes
-        order by year;"""
+        query="""select year, count(*) as current_total_crashes , lag(count(*)) over(order by year) as previous_year_crashes,
+                round((count(*)- lag(count(*)) over(order by year)) *100 / lag(count(*)) over(order by year),2) as growth_rate
+                from crash_data
+                group by year;"""
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
