@@ -195,7 +195,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***We observed more crashes in clear weather condition rather than snow and rain***")
+        st.write("***We observed more crashes are in clear weather condition rather than unknown and rain***")
 
     elif dropdown=="Identify the top 10 streets with the highest number of injury crashes":
         st.markdown("Top 10 Streets with the Highest Number of Injury Crashes")
@@ -203,7 +203,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***Western Ave street have the highest number of injury crashes with 2973 records and Damen Ave Street with 1263 crash records is in 10th place***")
+        st.write("***Western Ave street have the highest number of injury crashes with 5334 records and State ST Street with 2231 crash records is in 10th place***")
     
     elif dropdown=="Find the percentage of crashes that resulted in injuries for each crash type":
         st.markdown("Percentage of Injury Crashes by Crash Type")
@@ -211,7 +211,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***Here we can see most of the crashes are happening due to pedestrian***")    
+        st.write("***Here we have around 73 percentage of crashes that are resulted in injury.***")    
         
     elif dropdown=="Determine the peak crash hour for each month":
         st.markdown("Peak Crash Hour Per Month")
@@ -231,7 +231,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***'Unable to determine' is main cause for night time crashes which have 63606 crashes, which means people can't able to see the road properly at night time.***")
+        st.write("***Here most of the crashes are 'Unable to determine' at night time which have 63606 crashes, which means people can't able to see the road properly at night time.***")
 
     elif dropdown=="Compare average number of injuries in daylight vs darkness conditions":
         st.markdown("Injuries in Daylight Vs Darkness")
@@ -239,7 +239,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***From the table we can clearly see that average of injuries on both daylight and darkness conditions have mostly similar range.***")
+        st.write("***From the table we can clearly see that average of injuries on darkness with lighted road conditions have more injuries when compared to full darkness and daylight.***")
 
     elif dropdown=="Find which traffic control device type has the highest average injuries per crash":
         st.markdown("Highest average injuries per crash by Traffic control device")
@@ -247,7 +247,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***'Bicycle crossing sign' traffic control device have the highest average injuries of all crashes with 0.66 on average***")
+        st.write("***'Bicycle crossing sign' traffic control device have the highest average injuries of all crashes with 0.65 on average***")
     
     elif dropdown=="Identify the top 5 locations (latitude/longitude) with the highest crash frequency":
         st.markdown("Location Wise Crash Frequency")
@@ -255,7 +255,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***Here we can see top 5 locations which have high frequency of crashes with 1247 records at top whereas 353 at 5th position***")
+        st.write("***Here we can see top 5 locations which have high frequency of crashes with 1247 records at top whereas 353 at 5th position.***")
 
     elif dropdown=="Find the top 5 streets with the highest injury rate, considering only streets with more than 100 crashes":
         st.markdown("Top 5 Highest Injury Rate Streets")
@@ -263,7 +263,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***While considering only streets which has more than 100 crashes, we have highest injury rate of 0.45 at Marquette Dr street***")
+        st.write("***While considering only streets which has more than 100 crashes, we have highest injury rate of 0.45 at Marquette Dr street.***")
 
     
     elif dropdown=="For each year, identify the most common crash type":
@@ -274,7 +274,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***We can clearly see from 2020 to 2026, mostly 'parked motor vehicle' crash type occurs several times over the years with high amount of total crashes when compare to 'rear end'.***")
+        st.write("***We can clearly see from 2020 to 2026, No injury or Drive away crash_type is the most common crash type.***")
     
     elif dropdown=="Find the day of the week with the highest average crashes per hour":
         st.markdown("Day of Highest Average Crashes Based on Hour")
@@ -311,7 +311,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***Here we are representing the top 3 contributing causes for each crash type, incase of tie in total crash count we are assining the same rank.***")
+        st.write("***Here we are representing the top 3 contributing causes for each crash type, incase of tie in total crash count we are assining the same rank without skipping the next rank.***")
 
     elif dropdown=="Identify hotspot zones: Group nearby locations (round latitude & longitude to 2 decimal places),Find top 10 zones with highest crashes":
         st.markdown("Hotspot Zones")
@@ -333,7 +333,7 @@ elif option=="Data_Analysis":
         df=pd.read_sql(query,conn)
         st.dataframe(df)
         st.write("***Comments:***")
-        st.write("***Here we clearly understand growth rate is fluctuating year by year.***")
+        st.write("***Here we clearly understand growth rate is fluctuating year by year. But last three years growth rate of crashes is decreasing which is good to see.***")
 
     else:
         st.write("")
