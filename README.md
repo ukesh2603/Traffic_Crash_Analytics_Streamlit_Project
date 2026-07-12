@@ -14,6 +14,37 @@ This project focuses on:
 - Generating actionable business insights from structured data.
 - Building an interactive dashboard to present analytical findings.
 
+## Project Worflow
+
+The following workflow illustrates the complete data pipeline used in this project, from loading the dataset to visualizing analytical insights through a Streamlit dashboard.
+
+![Project Workflow](SQL_Results_Screenshots/image.png)
+
+### Workflow Explanation
+
+1. **Dataset Loading**
+   - Load the `Traffic_crashes_Dataset.csv` file into the Python environment using Pandas.
+
+2. **Data Validation**
+   - Verify the dataset by checking the schema, data types and row count
+
+3. **Database Integration**
+   - Establish a connection to the MySQL database using SQLAlchemy.
+   - Import the dataset into MySQL using `df.to_sql()`.
+
+4. **SQL Analysis**
+   - Execute analytical SQL queries using:
+     - Aggregations
+     - Window Functions
+     - Subqueries
+
+5. **Streamlit Application**
+   - Connect Streamlit to MySQL using the MySQL Connector.
+   - Display results in tables along with business insights.
+
+6. **Dashboard**
+   - Users can see different analytical queries through Streamlit interface.
+
 ## Business Use Cases:
 ### Traffic Authorities
   - Identify high-risk streets and accident-prone zones
@@ -25,6 +56,38 @@ This project focuses on:
   - Understand impact of road types and conditions
 ### Research & Policy Making
   - Study crash trends and contributing causes
+
+## Technology Stack
+
+### Programming Language
+- Python, SQL
+### Database
+- MySQL
+### Data Analysis
+- Pandas
+### Dashboard Framework
+- Streamlit
+### Development Tools
+- Visual Studio Code (VS Code)
+### Version Control
+- Git
+- GitHub
+
+
+## Project Structure
+```text
+Traffic_Crash_Analysis/
+│
+├── streamlti_apps.py
+├── requirements.txt
+├── README.md
+├── .gitignore
+├── Data/
+│   └── Traffic_CrashesData.csv
+│   └── car-logo.jpg
+└── Data_Exploration.ipynb
+└── Data_Loading.ipynb
+```
 
 ## Key analyses performed
 
@@ -44,40 +107,19 @@ This project focuses on:
 - Year-over-Year crash growth analysis
 - Hotspot zone identification using geographic clustering
 
+
+
 ## Result
 Developed an dashboard where results are displayed using Streamlit tables.
 
-## Technology Stack
 
-### Programming Language
-- Python, SQL
-### Database
-- MySQL
-### Data Analysis
-- Pandas
-### Dashboard Framework
-- Streamlit
-### Development Tools
-- Visual Studio Code (VS Code)
-### Version Control
-- Git
-- GitHub
+## Learning Outcomes
+- Advanced SQL query writing
+- Window functions and analytical SQL
+- Data exploration and insight generation
+- Database integration with Python
+- Streamlit application development
 
-## Project Structure
-```text
-Traffic_Crash_Analysis/
-│
-├── streamlti_apps.py
-├── requirements.txt
-├── README.md
-├── .gitignore
-├── Data/
-│   └── Traffic_CrashesData.csv
-│   └── car-logo.jpg
-└── Data_Exploration.ipynb
-│
-└── Data_Loading.ipynb
-```
 
 ## How to Run the Project
 ### Clone Repository
@@ -89,9 +131,4 @@ Traffic_Crash_Analysis/
 - streamlit run streamlti_apps.py
 
 
-## Learning Outcomes
-- Advanced SQL query writing
-- Window functions and analytical SQL
-- Data exploration and insight generation
-- Database integration with Python
-- Streamlit application development
+
